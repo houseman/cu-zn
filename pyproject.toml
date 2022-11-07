@@ -1,0 +1,60 @@
+[project]
+name = "cuzn"
+version = "0.0.1"
+authors = [
+  { name="Scott Houseman", email="scott@houseman.co.za" },
+]
+description = "A Python client for the Braze Customer Engagement Platform REST API"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+  "requests"
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "pytest-cov[all]",
+  "pytest-mock"
+]
+
+dev = [
+  "black",
+  "flake8",
+  "isort",
+  "mypy"
+]
+
+[project.urls]
+repository = "https://github.com/houseman/cu-zn"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["cuzn*"]
+namespaces = false
+
+[tool.isort]
+profile = "black"
+src_paths = [
+    "src",
+    "test"
+]
+honor_noqa = true
+
+[tool.mypy]
+files = "src"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
