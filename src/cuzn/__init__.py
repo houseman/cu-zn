@@ -3,7 +3,9 @@ from typing import Optional
 from .client import Client
 
 
-def configure(braze_endpoint: Optional[str], braze_api_key: Optional[str]) -> Client:
+def configure(
+    braze_endpoint: Optional[str] = None, braze_api_key: Optional[str] = None
+) -> Client:
     """
     Return a configured Braze Client instance
     """

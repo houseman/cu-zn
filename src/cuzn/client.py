@@ -2,6 +2,9 @@ import os
 from typing import Optional
 
 from .errors import ConfigurationError
+from dotenv import load_dotenv
+
+load_dotenv()  # load environment variables from .env file
 
 
 class Client:
