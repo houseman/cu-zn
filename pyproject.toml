@@ -28,7 +28,8 @@ dev = [
   "black",
   "flake8",
   "isort",
-  "mypy"
+  "mypy",
+  "nox"
 ]
 
 [project.urls]
@@ -58,3 +59,7 @@ files = "src"
 pythonpath = [
   "src"
 ]
+testpaths = [
+    "tests"
+]
+addopts = "--cov=src/cuzn --cov-report html --cov-report term"
