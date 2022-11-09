@@ -15,7 +15,8 @@ classifiers = [
 
 dependencies = [
   "requests",
-  "python-dotenv"
+  "python-dotenv",
+  "ujson"
 ]
 
 [project.optional-dependencies]
@@ -30,7 +31,8 @@ dev = [
   "flake8",
   "isort",
   "mypy",
-  "nox"
+  "nox",
+  "types-ujson"
 ]
 
 [project.urls]

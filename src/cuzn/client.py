@@ -1,13 +1,12 @@
 import os
 from typing import Optional
 
-from .errors import ConfigurationError
 from dotenv import load_dotenv
 
-load_dotenv()  # load environment variables from .env file
+from .errors import ConfigurationError
 
 
-class Client:
+class BrazeClient:
     _endpoint: Optional[str]
     _api_key: Optional[str]
 
@@ -15,8 +14,10 @@ class Client:
         self,
         *,
         braze_endpoint: Optional[str] = None,
-        braze_api_key: Optional[str] = None
+        braze_api_key: Optional[str] = None,
     ) -> None:
+        load_dotenv()  # load environment variables from .env file
+
         self._endpoint = braze_endpoint or os.getenv("CUZN_BRAZE_ENDPOINT")
         self._api_key = braze_api_key or os.getenv("CUZN_BRAZE_API_KEY")
 

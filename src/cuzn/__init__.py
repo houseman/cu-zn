@@ -1,13 +1,13 @@
 from typing import Optional
 
-from .client import Client
+from .client import BrazeClient
 
 
 def configure(
     braze_endpoint: Optional[str] = None, braze_api_key: Optional[str] = None
-) -> Client:
+) -> BrazeClient:
     """
-    Return a configured Braze Client instance
+    Return a configured Braze BrazeClient instance
     """
 
-    return Client(braze_endpoint=braze_endpoint, braze_api_key=braze_api_key)
+    return BrazeClient(braze_endpoint=braze_endpoint, braze_api_key=braze_api_key)
