@@ -1,36 +1,42 @@
 import pytest
 
 
-def test_init_not_configurable():
-    from cuzn.client import Client
+def test_init_not_configurable(mocker):
+    import os
+
+    from cuzn import client as module
+    from cuzn.client import BrazeClient
     from cuzn.errors import ConfigurationError
 
+    env = {}
+    mocker.patch.dict(os.environ, env)
+    mocker.patch.object(module, "load_dotenv")
+
     with pytest.raises(ConfigurationError):
-        Client()
+        BrazeClient()
 
 
 def test_envvar_fallback(mocker):
     import os
 
-    from cuzn.client import Client
+    from cuzn.client import BrazeClient
 
     env = {"CUZN_BRAZE_ENDPOINT": "https://abc.xyz", "CUZN_BRAZE_API_KEY": "foobar"}
-
     mocker.patch.dict(os.environ, env)
 
-    client = Client()
+    client = BrazeClient()
 
     assert client._endpoint == env["CUZN_BRAZE_ENDPOINT"]
     assert client._api_key == env["CUZN_BRAZE_API_KEY"]
 
 
 def test_explicit_config():
-    from cuzn.client import Client
+    from cuzn.client import BrazeClient
 
     CUZN_BRAZE_ENDPOINT = "https://abc.xyz"
     CUZN_BRAZE_API_KEY = "foobar"
 
-    client = Client(
+    client = BrazeClient(
         braze_endpoint=CUZN_BRAZE_ENDPOINT, braze_api_key=CUZN_BRAZE_API_KEY
     )
 
