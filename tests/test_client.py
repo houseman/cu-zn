@@ -42,3 +42,17 @@ def test_explicit_config():
 
     assert client._endpoint == CUZN_BRAZE_ENDPOINT
     assert client._api_key == CUZN_BRAZE_API_KEY
+
+
+def test_create(mocker):
+    from cuzn.client import BrazeClient
+
+    CUZN_BRAZE_ENDPOINT = "https://abc.xyz"
+    CUZN_BRAZE_API_KEY = "foobar"
+
+    client = BrazeClient(
+        braze_endpoint=CUZN_BRAZE_ENDPOINT, braze_api_key=CUZN_BRAZE_API_KEY
+    ).create()
+
+    assert client._session.headers["Authorization"] == f"Bearer {CUZN_BRAZE_API_KEY}"
+    assert client._session.headers["Content-Type"] == "application/json"

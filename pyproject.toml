@@ -32,7 +32,11 @@ dev = [
   "isort",
   "mypy",
   "nox",
-  "types-ujson"
+  "types-ujson",
+  "types-requests",
+  "pyupgrade",
+  "pre-commit",
+  'virtualenv < 20.16.3; python_version < "3.8"' # Resolve conflict: importlib-metadata<4.3,>=1.1.0 (from flake8==5.0.4->cuzn (pyproject.toml))
 ]
 
 [project.urls]
