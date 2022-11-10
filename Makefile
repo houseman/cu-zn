@@ -12,24 +12,26 @@ RESET   := $(shell tput -Txterm sgr0)
 TEST_OPTS ?=
 PIP_COMPILE_ARGS = --upgrade --no-emit-index-url --no-emit-trusted-host
 
-.PHONY: pip-compile
-## Compiles and updates dependencies (runs 'deps' afterwards)
-pip-compile: pip-sync
-	@pip-compile --version &> /dev/null || (echo "Installing pip-tools" && pip install --quiet pip-tools)
-	CUSTOM_COMPILE_COMMAND="make pip-compile" pip-compile $(PIP_COMPILE_ARGS) --output-file requirements.txt pyproject.toml
-	CUSTOM_COMPILE_COMMAND="make pip-compile" pip-compile $(PIP_COMPILE_ARGS) --extra dev --output-file dev-requirements.txt pyproject.toml
+pip-compile:
+	@python -m piptools compile --version &> /dev/null || (echo "Installing pip-tools" && python -m pip install --quiet pip-tools)
+	CUSTOM_COMPILE_COMMAND="make update-deps" python -m piptools compile  $(PIP_COMPILE_ARGS) --output-file requirements/requirements.txt pyproject.toml
+	CUSTOM_COMPILE_COMMAND="make update-deps" python -m piptools compile  $(PIP_COMPILE_ARGS) --extra dev --output-file requirements/dev-requirements.txt pyproject.toml
 
-.PHONY: pip-sync
 ## Install dependencies and ensure they are synced
 pip-sync:
-	@pip-sync --version &> /dev/null || (echo "Installing pip-tools" && pip install --quiet pip-tools)
-	pip-sync requirements.txt dev-requirements.txt
-	pip install --no-deps --disable-pip-version-check --quiet --editable .
+	@python -m piptools sync --version &> /dev/null || (echo "Installing pip-tools" && python -m pip install --quiet pip-tools)
+	python -m piptools sync requirements/requirements.txt requirements/dev-requirements.txt
+	python -m pip install --no-deps --disable-pip-version-check --quiet --editable .
+
+update-deps: pip-compile pip-sync
+install-deps: pip-sync
+
+.PHONY: pip-compile pip-sync update-deps install-deps
 
 .PHONY: test
 test:
 	@echo "\n${BLUE}Run unit tests${RESET}"
-	pytest $(TEST_OPTS)
+	python -m pytest $(TEST_OPTS)
 	@echo "\n${BLUE}Done unit tests${RESET}"
 
 PHONY: run-nox

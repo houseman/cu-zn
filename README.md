@@ -40,15 +40,16 @@ The `Makefile` defines the following targets
 ### Update dependency versions
 
 > **Note**
-> This will also run `make pip-sync`
+> This will also run `install-deps`
 
 ```shell
-make pip-compile
+make update-deps
 ```
 
 ### Install dependencies
+Install dependencies, without updating these first
 ```shell
-make pip-sync
+make install-deps
 ```
 
 ### Run unit tests in local virtual environment
