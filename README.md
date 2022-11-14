@@ -5,36 +5,36 @@ A Python client for the Braze Customer Engagement Platform REST API
 ```python
 import cuzn
 
-client = cuzn.configure(braze_endpoint="https://abc.xyz", braze_api_key="foobar")
+client = cuzn.configure(braze_endpoint="https://abc.xyz", braze_api_key="foobar", timeout=10).create()
 
 # Or, if environment variables are set, you can just do
-client = cuzn.configure()
+client = cuzn.configure().create()
 ```
 
 > **Note**
 > If `None` values (default) are passed as arguments to the `configure` function, the
-> environment variables `CUZN_BRAZE_ENDPOINT` and `CUZN_BRAZE_KEY` will be used, if
-> set (`.env` file configuration is supported). A `ConfigurationError` exception will
-> raise if nether of these options are defined.
+> environment variables as described in the table below. will be used, if set (`.env`
+> file configuration is supported). A `ConfigurationError` exception will
+> raise if no `configure()` parameter values, nor environment variables are set.
 
 ### Environment Variables
-| Name | Description | Type |
-| ---- | ----------- | ---- |
-| `CUZN_BRAZE_ENDPOINT` | The Braze API endpoint host | string |
-| `CUZN_BRAZE_KEY` | The Braze API key | string |
-| `CUZN_BRAZE_TIMEOUT` | The Braze API client timeout (in seconds) | integer |
+| Parameter Name | Environment Variable Name | Description | Type |
+| -------------- | ------------------------- | ----------- | ---- |
+| `braze_endpoint` | `CUZN_BRAZE_ENDPOINT` | The Braze API endpoint host | string |
+| `braze_api_key` | `CUZN_BRAZE_KEY` | The Braze API key | string |
+| `timeout` | `CUZN_BRAZE_TIMEOUT` | The Braze API client timeout (in seconds) | integer |
 
 ## Response
-Client request methods will return an `ApiResponse` object instance. This provides some useful methods.
+Client request methods will return an `BrazeResponse` object instance. This provides some useful methods.
 ```python
-from cuzn.response import ApiResponse
+from cuzn.response import BrazeResponse
 
-success = ApiResponse(200, '{"foo": "bar"}')
+success = BrazeResponse(200, '{"foo": "bar"}')
 success.is_success()  # True, response code is 200
 success.is_error()  # False, ditto
-success.payload().get("foo")  # "bar"
-success.payload().get("snafu")  # None
-success.payload().get("snafu", "bar")  # "bar"
+success.payload.get("foo")  # "bar"
+success.payload.get("snafu")  # None
+success.payload.get("snafu", "bar")  # "bar"
 ```
 
 ## Dev Tools

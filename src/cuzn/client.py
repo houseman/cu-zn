@@ -1,18 +1,16 @@
-from typing import Optional, TypeVar
+from typing import Optional
 
 import requests
 from dotenv import load_dotenv
 
 from .config import ConfigItem, get_config_value
 from .errors import ConfigurationError
-
-Self = TypeVar("Self", bound="BrazeClient")
+from .session import BrazeSession
 
 
 class BrazeClient:
-    _endpoint: Optional[str]
-    _api_key: Optional[str]
-    _timeout: Optional[int]
+
+    __slots__ = ["__endpoint__", "__api_key__", "__timeout__", "__session__"]
 
     def __init__(
         self,
@@ -23,28 +21,28 @@ class BrazeClient:
     ) -> None:
         load_dotenv()  # load environment variables from .env file
 
-        self._endpoint = braze_endpoint or get_config_value(ConfigItem.API_ENDPOINT)
-        self._api_key = braze_api_key or get_config_value(ConfigItem.API_KEY)
-        self._timeout = timeout or get_config_value(ConfigItem.API_TIMEOUT)
+        self.__endpoint__ = braze_endpoint or get_config_value(ConfigItem.API_ENDPOINT)
+        self.__api_key__ = braze_api_key or get_config_value(ConfigItem.API_KEY)
+        self.__timeout__ = timeout or get_config_value(ConfigItem.API_TIMEOUT)
 
         self._validate_config()
 
-    def create(self: Self) -> Self:
+    def create(self) -> BrazeSession:
         """
-        Create the configured client session
+        Create and return the configured client session
         """
 
         self._validate_config()
 
-        self._session = requests.Session()
-        self._session.headers.update(
+        self.__session__ = requests.Session()
+        self.__session__.headers.update(
             {
-                "Authorization": f"Bearer {self._api_key}",
+                "Authorization": f"Bearer {self.__api_key__}",
                 "Content-Type": "application/json",
             }
         )
 
-        return self
+        return BrazeSession(session=self.__session__)
 
     def _validate_config(self) -> None:
         """
@@ -53,7 +51,7 @@ class BrazeClient:
         """
 
         try:
-            assert self._endpoint is not None
-            assert self._api_key is not None
+            assert self.__endpoint__ is not None
+            assert self.__api_key__ is not None
         except AssertionError:
             raise ConfigurationError("Could not configure a Braze client")

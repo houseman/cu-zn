@@ -26,8 +26,8 @@ def test_envvar_fallback(mocker):
 
     client = BrazeClient()
 
-    assert client._endpoint == env["CUZN_BRAZE_ENDPOINT"]
-    assert client._api_key == env["CUZN_BRAZE_KEY"]
+    assert client.__endpoint__ == env["CUZN_BRAZE_ENDPOINT"]
+    assert client.__api_key__ == env["CUZN_BRAZE_KEY"]
 
 
 def test_explicit_config():
@@ -40,8 +40,8 @@ def test_explicit_config():
         braze_endpoint=CUZN_BRAZE_ENDPOINT, braze_api_key=CUZN_BRAZE_KEY
     )
 
-    assert client._endpoint == CUZN_BRAZE_ENDPOINT
-    assert client._api_key == CUZN_BRAZE_KEY
+    assert client.__endpoint__ == CUZN_BRAZE_ENDPOINT
+    assert client.__api_key__ == CUZN_BRAZE_KEY
 
 
 def test_create(mocker):
@@ -54,5 +54,5 @@ def test_create(mocker):
         braze_endpoint=CUZN_BRAZE_ENDPOINT, braze_api_key=CUZN_BRAZE_KEY
     ).create()
 
-    assert client._session.headers["Authorization"] == f"Bearer {CUZN_BRAZE_KEY}"
-    assert client._session.headers["Content-Type"] == "application/json"
+    assert client.__session__.headers["Authorization"] == f"Bearer {CUZN_BRAZE_KEY}"
+    assert client.__session__.headers["Content-Type"] == "application/json"
