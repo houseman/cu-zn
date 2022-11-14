@@ -10,6 +10,7 @@ BOLD   	:= $(shell tput -Txterm bold)
 RESET   := $(shell tput -Txterm sgr0)
 
 TEST_OPTS ?=
+NOX_OPTS ?=
 PIP_COMPILE_ARGS = --upgrade --no-emit-index-url --no-emit-trusted-host
 
 pip-compile:
@@ -36,9 +37,9 @@ test:
 
 PHONY: run-nox
 run-nox:
-	@nox --version &> /dev/null || (echo "Reuires nox" && exit 1)
+	@nox --version &> /dev/null || (echo "${RED}Failed: requires nox${RESET}" && exit 1)
 	@echo "\n${BLUE}Run nox${RESET}"
-	nox --reuse-existing-virtualenvs
+	nox $(NOX_OPTS)
 	@echo "\n${BLUE}Done nox${RESET}"
 
 .PHONY: lint

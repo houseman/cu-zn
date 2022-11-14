@@ -13,9 +13,16 @@ client = cuzn.configure()
 
 > **Note**
 > If `None` values (default) are passed as arguments to the `configure` function, the
-> environment variables `CUZN_BRAZE_ENDPOINT` and `CUZN_BRAZE_API_KEY` will be used, if
+> environment variables `CUZN_BRAZE_ENDPOINT` and `CUZN_BRAZE_KEY` will be used, if
 > set (`.env` file configuration is supported). A `ConfigurationError` exception will
 > raise if nether of these options are defined.
+
+### Environment Variables
+| Name | Description | Type |
+| ---- | ----------- | ---- |
+| `CUZN_BRAZE_ENDPOINT` | The Braze API endpoint host | string |
+| `CUZN_BRAZE_KEY` | The Braze API key | string |
+| `CUZN_BRAZE_TIMEOUT` | The Braze API client timeout (in seconds) | integer |
 
 ## Response
 Client request methods will return an `ApiResponse` object instance. This provides some useful methods.

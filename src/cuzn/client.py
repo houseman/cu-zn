@@ -1,9 +1,9 @@
-import os
 from typing import Optional, TypeVar
 
 import requests
 from dotenv import load_dotenv
 
+from .config import ConfigItem, get_config_value
 from .errors import ConfigurationError
 
 Self = TypeVar("Self", bound="BrazeClient")
@@ -12,17 +12,20 @@ Self = TypeVar("Self", bound="BrazeClient")
 class BrazeClient:
     _endpoint: Optional[str]
     _api_key: Optional[str]
+    _timeout: Optional[int]
 
     def __init__(
         self,
         *,
         braze_endpoint: Optional[str] = None,
         braze_api_key: Optional[str] = None,
+        timeout: Optional[int] = None,
     ) -> None:
         load_dotenv()  # load environment variables from .env file
 
-        self._endpoint = braze_endpoint or os.getenv("CUZN_BRAZE_ENDPOINT")
-        self._api_key = braze_api_key or os.getenv("CUZN_BRAZE_API_KEY")
+        self._endpoint = braze_endpoint or get_config_value(ConfigItem.API_ENDPOINT)
+        self._api_key = braze_api_key or get_config_value(ConfigItem.API_KEY)
+        self._timeout = timeout or get_config_value(ConfigItem.API_TIMEOUT)
 
         self._validate_config()
 
