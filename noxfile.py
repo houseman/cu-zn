@@ -10,8 +10,8 @@ def tests(session):
         "piptools",
         "sync",
         "--quiet",
-        "requirements/requirements.txt",
-        "requirements/dev-requirements.txt",
+        "requirements.txt",
+        "dev-requirements.txt",
     )
     session.run("python", "-m", "pytest")
 
@@ -25,8 +25,8 @@ def lint(session):
         "piptools",
         "sync",
         "--quiet",
-        "requirements/requirements.txt",
-        "requirements/dev-requirements.txt",
+        "requirements.txt",
+        "dev-requirements.txt",
     )
     session.run("pyupgrade")
     session.run("isort", ".")

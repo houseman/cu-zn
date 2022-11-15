@@ -20,7 +20,7 @@ coverage[toml]==6.5.0
     # via pytest-cov
 distlib==0.3.6
     # via virtualenv
-exceptiongroup==1.0.1
+exceptiongroup==1.0.3
     # via pytest
 filelock==3.8.0
     # via virtualenv
@@ -44,7 +44,7 @@ isort==5.10.1
     # via cuzn (pyproject.toml)
 mccabe==0.7.0
     # via flake8
-mypy==0.990
+mypy==0.991
     # via cuzn (pyproject.toml)
 mypy-extensions==0.4.3
     # via
@@ -54,9 +54,9 @@ nodeenv==1.7.0
     # via pre-commit
 packaging==21.3
     # via pytest
-pathspec==0.10.1
+pathspec==0.10.2
     # via black
-platformdirs==2.5.3
+platformdirs==2.5.4
     # via
     #   black
     #   virtualenv
