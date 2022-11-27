@@ -5,9 +5,6 @@ from .response import BrazeResponse
 
 
 class BrazeSession:
-
-    __slots__ = ["__session__"]
-
     def __init__(self, *, session: requests.Session) -> None:
         self.__session__ = session
 

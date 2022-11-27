@@ -2,15 +2,15 @@ import pytest
 
 
 def test_init_not_configurable(mocker):
-    import os
-
     from cuzn import client as module
     from cuzn.client import BrazeClient
     from cuzn.errors import ConfigurationError
 
-    env = {}
-    mocker.patch.dict(os.environ, env)
-    mocker.patch.object(module, "load_dotenv")
+    # Patch Config, to return None values
+    mock_config = mocker.Mock()
+    mock_config.get_str.return_value = None
+    mock_config.get_int.return_value = None
+    mocker.patch.object(module, "Config", return_value=mock_config)
 
     with pytest.raises(ConfigurationError):
         BrazeClient()

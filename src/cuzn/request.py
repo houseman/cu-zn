@@ -8,9 +8,6 @@ class RequestMethod(Enum):
 
 
 class BrazeRequest:
-
-    __slots__ = ["__method__", "__path__", "__data__"]
-
     def __init__(self, method: RequestMethod, path: str, data: Dict) -> None:
         self.__method__ = method
         self.__path__ = path

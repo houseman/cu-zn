@@ -1,17 +1,13 @@
 from typing import Optional
 
 import requests
-from dotenv import load_dotenv
 
-from .config import ConfigItem, get_config_value
+from .config import Config
 from .errors import ConfigurationError
 from .session import BrazeSession
 
 
 class BrazeClient:
-
-    __slots__ = ["__endpoint__", "__api_key__", "__timeout__", "__session__"]
-
     def __init__(
         self,
         *,
@@ -19,11 +15,10 @@ class BrazeClient:
         braze_api_key: Optional[str] = None,
         timeout: Optional[int] = None,
     ) -> None:
-        load_dotenv()  # load environment variables from .env file
 
-        self.__endpoint__ = braze_endpoint or get_config_value(ConfigItem.API_ENDPOINT)
-        self.__api_key__ = braze_api_key or get_config_value(ConfigItem.API_KEY)
-        self.__timeout__ = timeout or get_config_value(ConfigItem.API_TIMEOUT)
+        self.__endpoint__ = braze_endpoint or Config().get_str("CUZN_BRAZE_ENDPOINT")
+        self.__api_key__ = braze_api_key or Config().get_str("CUZN_BRAZE_KEY")
+        self.__timeout__ = timeout or Config().get_int("CUZN_BRAZE_TIMEOUT", 30)
 
         self._validate_config()
 

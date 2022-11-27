@@ -11,8 +11,6 @@ class BrazeResponse:
     Properties are immutable, and values can ony be set at time of instantiation
     """
 
-    __slots__ = ["__code__", "__content__", "__payload__", "__request__"]
-
     def __init__(self, code: int, content: str, request: BrazeRequest) -> None:
         """Constructor"""
 
