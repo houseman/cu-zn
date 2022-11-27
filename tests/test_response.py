@@ -15,9 +15,9 @@ import pytest
     ],
 )
 def test_is_success(mocker, code, expected):
-    from cuzn.response import ApiResponse
+    from cuzn.response import BrazeResponse
 
-    response = ApiResponse(code=code, content=mocker.Mock())
+    response = BrazeResponse(code=code, content=mocker.Mock(), request=mocker.Mock())
 
     assert response.is_success() == expected
 
@@ -36,9 +36,9 @@ def test_is_success(mocker, code, expected):
     ],
 )
 def test_is_error(mocker, code, expected):
-    from cuzn.response import ApiResponse
+    from cuzn.response import BrazeResponse
 
-    response = ApiResponse(code=code, content=mocker.Mock())
+    response = BrazeResponse(code=code, content=mocker.Mock(), request=mocker.Mock())
 
     assert response.is_error() == expected
 
@@ -52,49 +52,49 @@ def test_is_error(mocker, code, expected):
         ('{"foo": "bar"}', {"foo": "bar"}),
     ],
 )
-def test_payload(content, expected):
-    from cuzn.response import ApiResponse
+def test_payload(mocker, content, expected):
+    from cuzn.response import BrazeResponse
 
-    response = ApiResponse(code=200, content=content)
+    response = BrazeResponse(code=200, content=content, request=mocker.Mock())
 
-    assert response.payload() == expected
+    assert response.payload == expected
 
 
-def test_payload_memoisation():
+def test_payload_memoisation(mocker):
     import ujson
 
-    from cuzn.response import ApiResponse
+    from cuzn.response import BrazeResponse
 
     data = {"foo": "bar"}
     content = ujson.dumps(data)
-    response = ApiResponse(code=200, content=content)
+    response = BrazeResponse(code=200, content=content, request=mocker.Mock())
 
-    assert response._payload is None
-    assert response.payload().get("bar") is None
-    assert response._payload == data
-    assert response.payload().get("foo") == "bar"
+    assert response.__payload__ is None
+    assert response.payload.get("bar") is None
+    assert response.__payload__ == data
+    assert response.payload.get("foo") == "bar"
 
 
 @pytest.mark.parametrize(
     ["code", "expected"],
     [
-        (200, "ApiResponse<200>"),
-        (400, "ApiResponse<400>"),
-        (500, "ApiResponse<500>"),
+        (200, "BrazeResponse<200>"),
+        (400, "BrazeResponse<400>"),
+        (500, "BrazeResponse<500>"),
     ],
 )
 def test_repr(mocker, code, expected):
-    from cuzn.response import ApiResponse
+    from cuzn.response import BrazeResponse
 
-    response = ApiResponse(code=code, content="")
+    response = BrazeResponse(code=code, content="", request=mocker.Mock())
 
     assert f"{response}" == expected
 
 
-def test_immutability():
-    from cuzn.response import ApiResponse
+def test_immutability(mocker):
+    from cuzn.response import BrazeResponse
 
-    response = ApiResponse(code=201, content="foo")
+    response = BrazeResponse(code=201, content="foo", request=mocker.Mock())
     assert response.code == 201
     assert response.content == "foo"
 

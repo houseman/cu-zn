@@ -20,19 +20,26 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-test = [
-  "pytest",
-  "pytest-cov[all]",
-  "pytest-mock"
-]
 
 dev = [
   "black",
   "flake8",
   "isort",
   "mypy",
-  "nox",
-  "types-ujson"
+  "pyupgrade",
+  "pre-commit",
+
+  # Mypy type stubs
+  "types-ujson",
+  "types-requests",
+
+  # Test dependencies
+  "pytest",
+  "pytest-cov[all]",
+  "pytest-mock",
+
+  # Conflict resolutions
+  'virtualenv < 20.16.3; python_version < "3.8"' # Resolve conflict: importlib-metadata<4.3,>=1.1.0 (from flake8==5.0.4->cuzn (pyproject.toml))
 ]
 
 [project.urls]
